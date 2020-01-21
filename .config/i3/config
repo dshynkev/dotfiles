@@ -1,0 +1,132 @@
+set $mod mod4
+
+font pango:Fira Code Regular 8
+
+set $background  #2f343f
+set $foreground  #efefef
+set $black       #5b4848
+set $red         #cb6077
+set $green       #bec55b
+set $yellow      #e4bc87
+set $blue        #8ab3d5
+set $magenta     #a89bb9
+set $cyan        #7bcdb4
+set $white       #aaaaaa
+
+set $ws1  "1: 1"
+set $ws2  "2: 2"
+set $ws3  "3: 3"
+set $ws4  "4: 4"
+
+floating_modifier $mod
+
+exec --no-startup-id redshift 
+
+bindsym $mod+Return exec --no-startup-id kitty
+bindsym $mod+a exec --no-startup-id qutebrowser
+bindsym $mod+semicolon exec --no-startup-id i3lock
+bindsym --release $mod+Print exec --no-startup-id scrot '%Y-%m-%d_%H-%M-%S.png' \
+				-s -e 'mv $f ~/pic/shot/'
+bindsym $mod+q kill
+
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +5%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -5%
+bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle
+
+bindsym XF86MonBrightnessUp exec xbacklight -inc 5
+bindsym XF86MonBrightnessDown exec xbacklight -dec 5
+
+#bindsym XF86AudioNext exec ncmpcpp next
+#bindsym XF86AudioPrev exec ncmpcpp prev
+#bindsym XF86AudioPlay exec ncmpcpp toggle
+#bindsym XF86AudioStop exec ncmpcpp stop
+
+bindsym $mod+d exec dmenu_run
+
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+bindsym $mod+e split h
+
+bindsym $mod+v split v
+
+bindsym $mod+b bar mode toggle
+
+bindsym $mod+f fullscreen
+
+bindsym $mod+space floating toggle
+
+bindsym $mod+s layout stacking
+bindsym $mod+t layout tabbed
+bindsym $mod+p layout default
+
+bindsym $mod+Control+space focus mode_toggle
+
+bindsym $mod+Control+c focus parent
+ 
+bindsym $mod+Shift+c focus child
+
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+
+bindsym $mod+Shift+BackSpace reload
+bindsym $mod+Control+r restart
+bindsym $mod+Control+Escape exec "i3-nagbar -t warning -m 'Really exit?' -b 'Yes' 'i3-msg exit'"
+
+mode "resize" {
+        bindsym Left resize shrink width 5 px or 5 ppt
+        bindsym Down resize grow height 5 px or 5 ppt
+        bindsym Up resize shrink height 5 px or 5 ppt
+        bindsym Right resize grow width 5 px or 5 ppt
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+
+mode "gaps" {
+        bindsym Down gaps inner all minus 10
+        bindsym Left gaps outer all minus 10
+        bindsym Up gaps inner all plus 10
+        bindsym Right gaps outer all plus 10
+
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
+bindsym $mod+g mode "gaps"
+
+client.focused          $background  $background  $foreground   $background
+client.focused_inactive $background    $background   $foreground  $background
+client.unfocused        $background    $background   $foreground  $background
+client.urgent           $background     $background    $foreground  $yellow  
+
+for_window [class=".*"] border pixel 2
+gaps inner 8
+gaps outer 0
+
+for_window [class=feh] float
+
+bar {
+    workspace_buttons yes
+    status_command ~/.config/i3/conky.sh
+}

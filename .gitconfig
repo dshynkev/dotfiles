@@ -1,0 +1,22 @@
+[user]
+        email = dm.shynk@gmail.com
+        name = Dmytro Shynkevych
+        signingkey = 8A000C5C1353A2CE8474BA9DAC1979A235F7F240
+
+[sendemail]
+    xmailer = false
+    confirm = always
+    suppresscc = self
+        smtpEncryption = tls
+        smtpServer = smtp.gmail.com
+        smtpUser = dm.shynk@gmail.com
+        smtpServerPort = 587
+
+[commit]
+    gpgsign = true
+
+[push]
+    default = tracking
+
+[gpg]
+    program = gpg2
